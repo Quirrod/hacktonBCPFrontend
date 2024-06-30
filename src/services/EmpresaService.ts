@@ -16,12 +16,8 @@ export const empresaService = {
     },
 
     async getEmpresaImage( name: string ) {
-        const url = "/get-images";
-        const response = axiosInstanceImage.get(url, {
-            params: {
-                name,
-            },
-        });
+        const url = `/get-images?name=${name}`;
+        const response = axiosInstanceImage.get(url);
         return (await response).data;
     },
 };

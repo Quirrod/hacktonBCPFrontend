@@ -1,4 +1,4 @@
-import { Link, createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import AutoCompleteInput from '../../components/form/AutoCompleteInput'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
@@ -120,24 +120,7 @@ function Score() {
               animate="visible"
               exit="exit" className='w-full flex flex-col gap-4'>
               <label htmlFor='nombre'>Selecciona una empresa para ver el Dashboard</label>
-              <AutoCompleteInput name='nombre' label='Nombre de la empresa' options={[{
-                label: 'Selecciona una empresa',
-                value: '0'
-              },
-              {
-                label: 'Empresa 1',
-                value: '1'
-              },
-              {
-                label: 'Empresa 2',
-                value: '2'
-              },
-              {
-                label: 'Empresa 3',
-                value: '3'
-              }
-              ]} />
-
+              <AutoCompleteInput name='nombre' label='Nombre de la empresa' options={optionEmpresas} />
               <Button type='submit' className='backdrop-blur-md animated-background bg-gradient-to-r from-[#665DCD] via-[#5FA4E6] to-[#D2AB67] relative px-8 py-6 rounded-lg hover:scale-[1.05] duration-75 mb-4'>Obtener Datos del Dashboard</Button>
             </motion.section>
           }

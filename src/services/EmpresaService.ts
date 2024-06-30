@@ -27,7 +27,11 @@ export const empresaService = {
 
     async postEmpresa(data: any) {
         const url = "/create-data";
-        const response = axiosInstance.post(url, data);
+        const response = axiosInstance.post(url, data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         return (await response).data;
     },
 };

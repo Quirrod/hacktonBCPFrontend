@@ -4,6 +4,10 @@ import { Check, CloudDownload, Filter, Flash, Spark, Xmark } from 'iconoir-react
 import { empresaService, getDataEmpresa } from '../../services/EmpresaService';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import features from "../../assets/mejoras/features.jpeg";
+import improves from "../../assets/mejoras/mejoras.jpeg";
+import influences from "../../assets/mejoras/influencias.jpeg";
+
 
 export const Route = createLazyFileRoute('/score/$scoreId')({
   component: () => Dashboard(),
@@ -47,9 +51,7 @@ function Dashboard() {
               {lastData && <Score data={lastData} />}
             </TabPanel>
             <TabPanel>
-              <p className="mt-4 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-                Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
-              </p>
+             {Mejoras()}
             </TabPanel>
           </TabPanels>
         </TabGroup>
@@ -244,5 +246,60 @@ function Score({ data }: ScoreProps) {
         </Card>
       </div>
     </>
+  )
+}
+
+
+function Mejoras() {
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ['mejoras'],
+  //   queryFn: () => empresaService.getEmpresaImage('Akeso Inc'),
+  //   refetchOnWindowFocus: false,
+  // })
+
+
+  return (
+    <div className='flex flex-col gap-4 p-4 items-center text-center w-full mx-auto'>
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 w-full mb-4">
+        <Card
+          className="mx-auto w-full shadow-none"
+          decoration="top"
+          decorationColor="indigo"
+        >
+          <Text>
+            Reducción de Impureza
+          </Text>
+
+          <img src={features} alt="imagen1" />
+
+        </Card>
+        <Card
+          className="mx-auto w-full shadow-none"
+          decoration="top"
+          decorationColor="indigo"
+        >
+          <Text>
+            Impacto en el ESG Score
+          </Text>
+
+          <img src={improves} alt="imagen1" />
+
+        </Card>
+
+        <Card
+          className="mx-auto w-full shadow-none col-span-2"
+          decoration="top"
+          decorationColor="emerald"
+        >
+          <Text>
+            Impacto en el ESG Score
+          </Text>
+
+          <img src={influences} alt="imagen1" />
+
+        </Card>
+      </div>
+    </div>
+
   )
 }

@@ -2,7 +2,8 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import AutoCompleteInput from '../../components/form/AutoCompleteInput'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
-import { empresaService } from '../../services/EmpresaService'
+import { empresaService, formatData } from '../../services/EmpresaService'
+import { useEffect, useState } from 'react'
 
 export const Route = createLazyFileRoute('/score/')({
   component: () => <Score />
@@ -14,9 +15,10 @@ type ScoreForm = {
 
 function Score() {
   const formMethods = useForm<ScoreForm>()
+  const [empresas, setEmpresas] = useState([])
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['scoreEmpresas', formMethods.getValues('nombre')],
+    queryKey: ['scoreEmpresas'],
     queryFn: () => empresaService.getEmpresas(),
     refetchOnWindowFocus: false,
   })
@@ -24,6 +26,12 @@ function Score() {
   const onSubmit = (data: ScoreForm) => {
     console.log(data)
   }
+
+  useEffect(() => {
+    if (data) {
+      setEmpresas(formatData(data))
+    }
+  }, [data])
 
   return <div className='flex flex-col gap-4 p-4 items-center text-center'>
     <h1 className='text-3xl font-bold'>Consulta</h1>

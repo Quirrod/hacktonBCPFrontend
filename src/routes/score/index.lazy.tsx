@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Text } from '@tremor/react';
+import { BarChart, Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Text } from '@tremor/react';
 import { Check, CloudDownload, Filter, Flash, Spark, X, Xmark } from 'iconoir-react';
 
 export const Route = createLazyFileRoute('/score/')({
@@ -34,6 +34,32 @@ function Dashboard() {
       check: true,
     },
   ];
+
+  const chartdata = [
+    {
+      name: 'Uso de Energia',
+      'relevancia': 2488,
+    },
+    {
+      name: 'Uso de Agua',
+      'relevancia': 1445,
+    },
+    {
+      name: 'Politicas de Diversidad',
+      'relevancia': 743,
+    },
+    {
+      name: 'Emicion de CO2',
+      'relevancia': 281,
+    },
+    {
+      name: 'Brecha salarial',
+      'relevancia': 251,
+    },
+  ];
+
+  const dataFormatter = (number: number) =>
+    Intl.NumberFormat('us').format(number).toString();
 
 
   return (
@@ -177,51 +203,23 @@ function Dashboard() {
           </List>
         </Card>
         <Card
-
-          className="mx-auto w-full shadow-none"
-          decoration="top"
-          decorationColor="indigo"
-
+          className="mx-auto w-full shadow-none col-span-2"
         >
-          <Text>
-            Uso de energia
-          </Text>
-          <Flex>
-            <Metric>
-              138 MM
-            </Metric>
-            <Icon
-              icon={Flash}
-              variant="light"
-              tooltip="Tooltip to place context information"
-            />
-          </Flex>
-
+          <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+            KPI relevancia
+          </h3>
+          <BarChart
+            className="mt-6"
+            data={chartdata}
+            index="name"
+            categories={['relevancia']}
+            colors={['blue']}
+            valueFormatter={dataFormatter}
+            yAxisWidth={48}
+          />
 
         </Card>
-        <Card
 
-          className="mx-auto w-full shadow-none"
-          decoration="top"
-          decorationColor="indigo"
-
-        >
-          <Text>
-            Uso de energia RVB
-          </Text>
-          <Flex>
-            <Metric>
-              138 MM
-            </Metric>
-            <Icon
-              icon={Spark}
-              variant="light"
-              tooltip="Tooltip to place context information"
-            />
-          </Flex>
-
-
-        </Card>
       </div>
     </div>
   )

@@ -162,7 +162,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 w-[80%]">
         <Card
 
-          className="mx-auto w-full shadow-none my-auto h-full flex flex-col justify-center"
+          className="w-full col-span-2 sm:col-span-1 shadow-none sm:my-auto sm:h-full sm:flex sm:flex-col sm:justify-center"
 
         >
           <Text>
@@ -171,18 +171,14 @@ function Dashboard() {
           <Metric>
             62 / 100
           </Metric>
-
           <CategoryBar
             values={[40, 30, 10]}
             colors={['emerald', 'yellow', 'rose']}
             markerValue={62}
           />
-
-
         </Card>
         <Card
           className="mx-auto w-full shadow-none"
-
         >
           <Metric>
             Politicas
@@ -209,7 +205,6 @@ function Dashboard() {
             KPI relevancia
           </h3>
           <BarChart
-            className="mt-6"
             data={chartdata}
             index="name"
             categories={['relevancia']}
@@ -217,9 +212,7 @@ function Dashboard() {
             valueFormatter={dataFormatter}
             yAxisWidth={48}
           />
-
         </Card>
-
       </div>
     </div>
   )

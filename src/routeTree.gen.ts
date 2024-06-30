@@ -17,7 +17,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
-const ScoreIndexLazyImport = createFileRoute('/score/')()
+const GetScoreIndexLazyImport = createFileRoute('/get-score/')()
 const BenefitsIndexLazyImport = createFileRoute('/benefits/')()
 const AboutUsIndexLazyImport = createFileRoute('/about-us/')()
 
@@ -28,10 +28,12 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const ScoreIndexLazyRoute = ScoreIndexLazyImport.update({
-  path: '/score/',
+const GetScoreIndexLazyRoute = GetScoreIndexLazyImport.update({
+  path: '/get-score/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/score/index.lazy').then((d) => d.Route))
+} as any).lazy(() =>
+  import('./routes/get-score/index.lazy').then((d) => d.Route),
+)
 
 const BenefitsIndexLazyRoute = BenefitsIndexLazyImport.update({
   path: '/benefits/',
@@ -72,11 +74,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BenefitsIndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/score/': {
-      id: '/score/'
-      path: '/score'
-      fullPath: '/score'
-      preLoaderRoute: typeof ScoreIndexLazyImport
+    '/get-score/': {
+      id: '/get-score/'
+      path: '/get-score'
+      fullPath: '/get-score'
+      preLoaderRoute: typeof GetScoreIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -88,7 +90,7 @@ export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   AboutUsIndexLazyRoute,
   BenefitsIndexLazyRoute,
-  ScoreIndexLazyRoute,
+  GetScoreIndexLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -102,7 +104,7 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/about-us/",
         "/benefits/",
-        "/score/"
+        "/get-score/"
       ]
     },
     "/": {
@@ -114,8 +116,8 @@ export const routeTree = rootRoute.addChildren({
     "/benefits/": {
       "filePath": "benefits/index.lazy.tsx"
     },
-    "/score/": {
-      "filePath": "score/index.lazy.tsx"
+    "/get-score/": {
+      "filePath": "get-score/index.lazy.tsx"
     }
   }
 }

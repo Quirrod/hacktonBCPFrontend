@@ -23,6 +23,7 @@ function AutoCompleteInput({ name, label, options, rules = {}, required, require
                     selectedKey={value}
                     onSelectionChange={onChange}
                     defaultItems={options}
+                    className="w-full"
                 >
                     {(item: { value: string, label: string }) => <AutocompleteItem key={item.value} value={item.value}>{item.label}</AutocompleteItem>}
                 </Autocomplete>

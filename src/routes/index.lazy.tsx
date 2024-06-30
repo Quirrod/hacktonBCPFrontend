@@ -22,7 +22,7 @@ function LandingPage() {
       speed: 60,
     }}>Transforma tu Estrategia Financiera con Tecnología Innovadora</TypeIt></h1>
     <h3 className='w-[60%] text-md md:text-2xl'>Transforma tu enfoque financiero, basados en criterios ESG, promueve la sostenibilidad y la ética empresarial.</h3>
-    <Link to='/score' className='backdrop-blur-md animated-background bg-gradient-to-r from-[#665DCD] via-[#5FA4E6] to-[#D2AB67] relative p-4 rounded-lg hover:scale-[1.05] duration-75'>
+    <Link to='/get-score' className='backdrop-blur-md animated-background bg-gradient-to-r from-[#665DCD] via-[#5FA4E6] to-[#D2AB67] relative p-4 rounded-lg hover:scale-[1.05] duration-75'>
       <span className='font-bold drop-shadow-2xl'>Usar Ahora</span>
     </Link>
   </section>

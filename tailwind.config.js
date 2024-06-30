@@ -115,7 +115,7 @@ export default {
         },
     },
     darkMode: "class",
-    plugins: [nextui({ addCommonColors: true }), require('@headlessui/tailwindcss'), require('@tailwindcss/forms')],
+    plugins: [nextui({ addCommonColors: true }), require('@headlessui/tailwindcss')],
     safelist: [
         {
           pattern:

@@ -62,7 +62,8 @@ function Score() {
   const { data } = useQuery({
     queryKey: ['empresas'],
     queryFn: () => empresaService.getEmpresas(),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
+    refetchInterval: 1000,
   })
 
   const empresaMutation = useMutation({
@@ -70,6 +71,7 @@ function Score() {
       return empresaService.postEmpresa(data)
     },
     onSuccess: (data) => {
+      formMethods.reset()
       console.log(data)
     }
   })
@@ -81,8 +83,10 @@ function Score() {
   };
 
   const onSubmit = (data: ScoreForm) => {
-    console.log(data)
-    empresaMutation.mutate({ ...data, co2_revenues: Number(data.co2_revenues), water_revenues: Number(data.water_revenues), energy_revenues: Number(data.energy_revenues), renewable_energy: Number(data.renewable_energy), market_gap: Number(data.market_gap), salary_gap: Number(data.salary_gap), net_employment_creation: Number(data.net_employment_creation), sector_code: Number(data.sector_code), date: new Date().toISOString() })
+    if (data.co2_revenues)
+      empresaMutation.mutate({ ...data, co2_revenues: Number(data.co2_revenues), water_revenues: Number(data.water_revenues), energy_revenues: Number(data.energy_revenues), renewable_energy: Number(data.renewable_energy), market_gap: Number(data.market_gap), salary_gap: Number(data.salary_gap), net_employment_creation: Number(data.net_employment_creation), sector_code: Number(data.sector_code), date: "2024-04-28" })
+    else
+      console.log(data)
   }
 
   useEffect(() => {
@@ -149,7 +153,7 @@ function Score() {
               animate="visible"
               exit="exit" className='w-full flex flex-col gap-4'>
               <label htmlFor='nombre'>Selecciona una empresa para ver el Dashboard</label>
-              <AutoCompleteInput name='nombre' label='Nombre de la empresa' options={optionEmpresas} />
+              <AutoCompleteInput name='name' label='Nombre de la empresa' options={optionEmpresas} />
               <Button onPress={() => {
                 if (formMethods.getValues('name')) navigate({
                   to: '/score/$scoreId',

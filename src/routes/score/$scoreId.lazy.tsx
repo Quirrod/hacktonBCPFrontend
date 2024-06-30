@@ -1,6 +1,9 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { BarChart, Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react';
-import { Check, CloudDownload, Filter, Flash, Spark, X, Xmark } from 'iconoir-react';
+import { Check, CloudDownload, Filter, Flash, Spark, Xmark } from 'iconoir-react';
+import { empresaService, getDataEmpresa } from '../../services/EmpresaService';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export const Route = createLazyFileRoute('/score/$scoreId')({
   component: () => Dashboard(),
@@ -8,11 +11,30 @@ export const Route = createLazyFileRoute('/score/$scoreId')({
 
 
 function Dashboard() {
+  const { scoreId } = Route.useParams()
+  const [dataEmpresa, setDataEmpresa] = useState<any[]>([])
+  const [lastData, setLastData] = useState<any>({})
 
+  const empresaQuery = useQuery({
+    queryKey: ['empresas-dashboard'],
+    queryFn: () => empresaService.getEmpresas(),
+    refetchOnWindowFocus: true,
+    refetchInterval: 1000,
+  })
+
+  useEffect(() => {
+    if (empresaQuery.data) {
+      console.log(empresaQuery.data)
+      setDataEmpresa(getDataEmpresa(empresaQuery.data, scoreId))
+    }
+  }, [empresaQuery.data])
+  useEffect(() => {
+    setLastData(dataEmpresa[dataEmpresa.length - 1])
+  }, [dataEmpresa])
 
   return (
     <div className='flex flex-col gap-4 p-4 items-center text-center w-[80%] mx-auto'>
-      <h1 className='text-3xl font-bold'>Reporte ESG - NOMBRE_EMPRESA</h1>
+      <h1 className='text-3xl font-bold'>Reporte ESG - {scoreId}</h1>
       <div className="w-full">
 
         <TabGroup>
@@ -20,50 +42,28 @@ function Dashboard() {
             <Tab value="1">SCORE</Tab>
             <Tab value="2">MEJORAS</Tab>
           </TabList>
-        <TabPanels>
-          <TabPanel>
-            {Score()}
-          </TabPanel>
-          <TabPanel>
-            <p className="mt-4 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-              Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
-            </p>
-          </TabPanel>
-        </TabPanels>
+          <TabPanels>
+            <TabPanel>
+              {lastData && <Score data={lastData} />}
+            </TabPanel>
+            <TabPanel>
+              <p className="mt-4 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+                Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
+              </p>
+            </TabPanel>
+          </TabPanels>
         </TabGroup>
       </div>
     </div>
   )
 }
 
+type ScoreProps = {
+  data: any;
+}
 
-function Score() {
-  const cities = [
-    {
-      policy: 'POLITICA DE SEGURIDAD Y SALUD EN CADENA DE SUMINISTRO',
-      check: true,
-    },
-    {
-      policy: 'POLITICA DE SEGURIDAD Y SALUD',
-      check: true,
-    },
-    {
-      policy: 'POLITICA DE INDEPENDENCIA DE DIRECTORIO',
-      check: false,
-    },
-    {
-      policy: 'POLITICA DE EXPERIENCIA DE DIRECTORIO',
-      check: true,
-    },
-    {
-      policy: 'POLITICA DE DIVERSIDAD Y OPORTUNIDAD',
-      check: true,
-    },
-    {
-      policy: 'POLITICA DE DIVERSIDAD DE DIRECTORIO',
-      check: true,
-    },
-  ];
+function Score({ data }: ScoreProps) {
+  const [policies, _] = useState<any[]>(Object.entries(data).filter(([key, _]) => key.includes('policy')).map(([key, value]) => ({ policy: key, check: value })))
 
   const chartdata = [
     {
@@ -107,7 +107,7 @@ function Score() {
           </Text>
           <Flex>
             <Metric>
-              138 MM
+              {data?.co2_revenues?.toFixed(2)}
             </Metric>
             <Icon
               icon={CloudDownload}
@@ -130,7 +130,7 @@ function Score() {
           </Text>
           <Flex>
             <Metric>
-              138 MM
+              {data?.water_revenues?.toFixed(2)}
             </Metric>
             <Icon
               icon={Filter}
@@ -153,7 +153,7 @@ function Score() {
           </Text>
           <Flex>
             <Metric>
-              138 MM
+              {data?.energy_revenues?.toFixed(2)}
             </Metric>
             <Icon
               icon={Flash}
@@ -176,7 +176,7 @@ function Score() {
           </Text>
           <Flex>
             <Metric>
-              138 MM
+              {data?.renewable_energy?.toFixed(2)}
             </Metric>
             <Icon
               icon={Spark}
@@ -198,12 +198,12 @@ function Score() {
             Score - ESG
           </Text>
           <Metric>
-            62 / 100
+            {data?.esg_score?.toFixed(2)} / 100
           </Metric>
           <CategoryBar
             values={[40, 30, 10]}
             colors={['emerald', 'yellow', 'rose']}
-            markerValue={62}
+            markerValue={data?.esg_score}
           />
         </Card>
         <Card
@@ -213,7 +213,7 @@ function Score() {
             Politicas
           </Metric>
           <List className="mt-2">
-            {cities.map((item) => (
+            {policies.map((item) => (
               <ListItem key={item.policy}>
                 <span>{item.policy}</span>
                 <span>

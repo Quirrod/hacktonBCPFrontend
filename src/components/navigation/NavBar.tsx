@@ -66,7 +66,7 @@ function NavMenu({ setOpen }: NavMenuProps) {
         exit: { x: 100, opacity: 0 },
     };
     return (
-        <motion.div className='size-full fixed top-0 left-0 grid bg-[#000000bf] backdrop-blur-sm z-30' onClick={() => setOpen(false)}>
+        <motion.div className='size-full fixed top-0 left-0 grid bg-[#000000bf] backdrop-blur-sm z-40' onClick={() => setOpen(false)}>
             <motion.div transition={{
                 x: { type: 'spring', bounce: 0, duration: 0.25 },
             }} variants={animation}

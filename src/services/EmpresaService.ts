@@ -8,10 +8,26 @@ export const formatData = (data: any): { label: string; value: string }[] => {
     }));
 };
 
+export const getDataEmpresa = (data: any, name: string) => {
+    return data
+        .filter((item: any) => item.name === name.split("~")[0])
+        .sort((a: any, b: any) => {
+            const dateA = Number(a.date.split("-").join(""));
+            const dateB = Number(b.date.split("-").join(""));
+            return dateA - dateB;
+        });
+};
+
 export const empresaService = {
     async getEmpresas() {
         const url = "/get-all-data";
         const response = axiosInstance.get(url);
+        return (await response).data;
+    },
+
+    async postEmpresa(data: any) {
+        const url = "/create-data";
+        const response = axiosInstance.post(url, data);
         return (await response).data;
     },
 };

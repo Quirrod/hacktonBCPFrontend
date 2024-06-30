@@ -21,7 +21,7 @@ function CustomInput({ type = 'text', name, label, rules = {}, required, require
                     type={type}
                     label={label}
                     placeholder={placeholder}
-                    value={value}
+                    value={value || ''}
                     onValueChange={onChange}
                 />
             }

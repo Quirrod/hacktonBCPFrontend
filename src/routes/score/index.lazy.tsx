@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { BarChart, Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Text } from '@tremor/react';
+import { BarChart, Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react';
 import { Check, CloudDownload, Filter, Flash, Spark, X, Xmark } from 'iconoir-react';
 
 export const Route = createLazyFileRoute('/score/')({
@@ -8,6 +8,36 @@ export const Route = createLazyFileRoute('/score/')({
 
 
 function Dashboard() {
+
+
+  return (
+    <div className='flex flex-col gap-4 p-4 items-center text-center w-[80%] mx-auto'>
+      <h1 className='text-3xl font-bold'>Reporte ESG - NOMBRE_EMPRESA</h1>
+      <div className="w-full">
+
+        <TabGroup>
+          <TabList variant="solid">
+            <Tab value="1">SCORE</Tab>
+            <Tab value="2">MEJORAS</Tab>
+          </TabList>
+        <TabPanels>
+          <TabPanel>
+            {Score()}
+          </TabPanel>
+          <TabPanel>
+            <p className="mt-4 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+              Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
+            </p>
+          </TabPanel>
+        </TabPanels>
+        </TabGroup>
+      </div>
+    </div>
+  )
+}
+
+
+function Score() {
   const cities = [
     {
       policy: 'POLITICA DE SEGURIDAD Y SALUD EN CADENA DE SUMINISTRO',
@@ -63,9 +93,8 @@ function Dashboard() {
 
 
   return (
-    <div className='flex flex-col gap-4 p-4 items-center text-center w-full'>
-      <h1 className='text-3xl font-bold'>Reporte ESG - NOMBRE_EMPRESA</h1>
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-4 w-[80%]">
+    <>
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-4 w-full mb-4">
         <Card
 
           className="mx-auto w-full shadow-none"
@@ -159,7 +188,7 @@ function Dashboard() {
 
         </Card>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 w-[80%]">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 w-full">
         <Card
 
           className="w-full col-span-2 sm:col-span-1 shadow-none sm:my-auto sm:h-full sm:flex sm:flex-col sm:justify-center"
@@ -214,6 +243,6 @@ function Dashboard() {
           />
         </Card>
       </div>
-    </div>
+    </>
   )
 }

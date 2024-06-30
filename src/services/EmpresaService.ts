@@ -1,4 +1,4 @@
-import { axiosInstance } from "./Instance";
+import { axiosInstance, axiosInstanceImage } from "./Instance";
 
 export const formatData = (data: any): { label: string; value: string }[] => {
     const newData = new Map(data.map((item: any) => [item.name, item]));
@@ -23,6 +23,11 @@ export const empresaService = {
         const url = "/get-all-data";
         const response = axiosInstance.get(url);
         return (await response).data;
+    },
+
+    async getEmpresaImage(name: string) {
+        const url = `/get-images?name=${name}`;
+        const response = axiosInstanceImage.get(url);
     },
 
     async postEmpresa(data: any) {

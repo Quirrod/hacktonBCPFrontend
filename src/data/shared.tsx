@@ -1,5 +1,3 @@
-import circleDecoration from '../assets/home/circleDecoration.svg'
-
 export const navBarLinks = [
     {
         title: "Acerca de Nosotros",
@@ -12,6 +10,6 @@ export const navBarLinks = [
     {
         title: "Usar Ahora",
         url: "/score",
-        decoration: circleDecoration
+        decoration: <div className='size-[12px] animated-background bg-gradient-to-r from-[#665DCD] via-[#5FA4E6] to-[#D2AB67] rounded-full'></div>
     },
 ];

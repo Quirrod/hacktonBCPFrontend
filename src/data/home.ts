@@ -1,2 +1,59 @@
-export const gradientUrl =
-    "https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=1.2&cAzimuthAngle=180&cDistance=5&cPolarAngle=50&cameraZoom=1&color1=%235FA4E6&color2=%23665DCD&color3=%23E7B35A&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=env&pixelDensity=1&positionX=0&positionY=0.9&positionZ=-0.3&range=enabled&rangeEnd=500&rangeStart=0&reflection=0.1&rotationX=45&rotationY=0&rotationZ=0&shader=defaults&type=waterPlane&uAmplitude=0&uDensity=1.2&uFrequency=0&uSpeed=0.1&uStrength=3.4&uTime=0&wireframe=false";
+import b1 from "../assets/home/benefits/b1.png";
+import b2 from "../assets/home/benefits/b2.png";
+import b3 from "../assets/home/benefits/b3.png";
+
+export const aboutUsData = [
+    {
+        title: "~$100 billion",
+        description: "cumulative trading volume to date",
+    },
+    {
+        title: "0.8%",
+        description: "of the global crypto spot trading volume",
+    },
+    {
+        title: "~30",
+        description: "Gravity Teammates (& growing)",
+    },
+    {
+        title: "25+",
+        description: "leading global and local crypto exchanges",
+    },
+    {
+        title: "2017",
+        description: "start, crypto-natives",
+    },
+    {
+        title: "1,200+",
+        description: "crypto-asset pairs",
+    },
+    {
+        title: "24/7",
+        description: "liquidity",
+    },
+    {
+        title: "5 billion+",
+        description: "trades done to date",
+    },
+];
+
+export const benefitsData = [
+    {
+        title: "Mejora de la Reputación Corporativa",
+        description:
+            "Fortalece la imagen de tu entidad financiera al asociarte con empresas que valoran la sostenibilidad y la ética empresarial. ",
+        img: b1,
+    },
+    {
+        title: "Análisis Profundo de ESG:",
+        description:
+            "Evalúa el impacto ambiental con precisión. Analiza la responsabilidad social corporativa y su impacto. Evalúa prácticas de gobierno corporativo para una ética empresarial sólida.",
+        img: b2,
+    },
+    {
+        title: "Alineación con Objetivos de Desarrollo Sostenible",
+        description:
+            "Evalúa el desempeño ambiental, social y de gobierno corporativo de cada empresa. Identifica oportunidades de inversión alineadas con principios ESG y objetivos financieros.",
+        img: b3,
+    },
+];

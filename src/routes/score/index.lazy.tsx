@@ -1,7 +1,6 @@
-import { RiToolsFill } from '@remixicon/react';
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { Card, CategoryBar, Flex, Icon, ListItem, Metric, Text } from '@tremor/react';
-import { CloudDownload, Filter, Flash, LightBulb, List, Spark } from 'iconoir-react';
+import { Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Text } from '@tremor/react';
+import { Check, CloudDownload, Filter, Flash, Spark, X, Xmark } from 'iconoir-react';
 
 export const Route = createLazyFileRoute('/score/')({
   component: () => Dashboard(),
@@ -137,7 +136,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 w-[80%]">
         <Card
 
-          className="mx-auto w-full shadow-none"
+          className="mx-auto w-full shadow-none my-auto h-full flex flex-col justify-center"
 
         >
           <Text>
@@ -156,27 +155,26 @@ function Dashboard() {
 
         </Card>
         <Card
-
           className="mx-auto w-full shadow-none"
-          decoration="top"
-          decorationColor="indigo"
 
         >
-          <Text>
-            Uso de agua
-          </Text>
-          <h3 className="text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium">Tremor's Hometowns</h3>
+          <Metric>
+            Politicas
+          </Metric>
           <List className="mt-2">
             {cities.map((item) => (
               <ListItem key={item.policy}>
                 <span>{item.policy}</span>
-                <span>{item.check}</span>
+                <span>
+                  <Icon
+                    icon={item.check ? Check : Xmark}
+                    variant={item.check ? 'light' : 'shadow'}
+                    color={item.check ? 'emerald' : 'rose'}
+                  />
+                </span>
               </ListItem>
             ))}
           </List>
-
-
-
         </Card>
         <Card
 

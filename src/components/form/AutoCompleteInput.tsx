@@ -18,6 +18,7 @@ function AutoCompleteInput({ name, label, options, rules = {}, required, require
         <ControlledInput defaultValue={null} name={name} rules={rules} requiredMessage={requiredMessage} required={required}>
             {({ onChange, value }) =>
                 <Autocomplete
+                    allowsCustomValue
                     label={label}
                     placeholder={placeholder}
                     selectedKey={value}

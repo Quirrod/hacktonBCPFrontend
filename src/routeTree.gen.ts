@@ -17,6 +17,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
+const ScoreIndexLazyImport = createFileRoute('/score/')()
 const GetScoreIndexLazyImport = createFileRoute('/get-score/')()
 const DashboardIndexLazyImport = createFileRoute('/dashboard/')()
 const BenefitsIndexLazyImport = createFileRoute('/benefits/')()
@@ -28,6 +29,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ScoreIndexLazyRoute = ScoreIndexLazyImport.update({
+  path: '/score/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/score/index.lazy').then((d) => d.Route))
 
 const GetScoreIndexLazyRoute = GetScoreIndexLazyImport.update({
   path: '/get-score/',
@@ -96,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GetScoreIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/score/': {
+      id: '/score/'
+      path: '/score'
+      fullPath: '/score'
+      preLoaderRoute: typeof ScoreIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -107,6 +120,7 @@ export const routeTree = rootRoute.addChildren({
   BenefitsIndexLazyRoute,
   DashboardIndexLazyRoute,
   GetScoreIndexLazyRoute,
+  ScoreIndexLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -121,7 +135,8 @@ export const routeTree = rootRoute.addChildren({
         "/about-us/",
         "/benefits/",
         "/dashboard/",
-        "/get-score/"
+        "/get-score/",
+        "/score/"
       ]
     },
     "/": {
@@ -138,6 +153,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/get-score/": {
       "filePath": "get-score/index.lazy.tsx"
+    },
+    "/score/": {
+      "filePath": "score/index.lazy.tsx"
     }
   }
 }

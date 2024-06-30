@@ -1,6 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { BarChart, Card, CategoryBar, Flex, Icon, List, ListItem, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react';
 import { Check, CloudDownload, Filter, Flash, Spark, X, Xmark } from 'iconoir-react';
+import { empresaService } from '../../services/EmpresaService';
 
 export const Route = createLazyFileRoute('/score/')({
   component: () => Dashboard(),
@@ -25,9 +27,7 @@ function Dashboard() {
             {Score()}
           </TabPanel>
           <TabPanel>
-            <p className="mt-4 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-              Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
-            </p>
+            {Mejoras()}
           </TabPanel>
         </TabPanels>
         </TabGroup>
@@ -244,5 +244,19 @@ function Score() {
         </Card>
       </div>
     </>
+  )
+}
+
+
+function Mejoras(){
+  const { data } = useQuery({
+    queryKey: ['mejoras'],
+    queryFn: () => empresaService.getEmpresaImage('Akeso Inc'),
+    refetchOnWindowFocus: false,
+  })
+  return (
+    <div>
+      <h1>Mejoras</h1>
+    </div>
   )
 }

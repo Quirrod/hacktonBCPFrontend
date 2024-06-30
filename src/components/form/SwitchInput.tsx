@@ -14,7 +14,7 @@ function SwitchInput({ name, rules = {}, required = false, requiredMessage, labe
     return (
         <ControlledInput name={name} rules={rules} requiredMessage={requiredMessage} required={required}>
             {({ onChange, value }) =>
-                <Switch color="secondary" isSelected={value} onValueChange={onChange}>
+                <Switch color="secondary" isSelected={value || false} onValueChange={onChange}>
                     {label}
                 </Switch>
             }

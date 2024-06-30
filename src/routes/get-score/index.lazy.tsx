@@ -1,7 +1,7 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import AutoCompleteInput from '../../components/form/AutoCompleteInput'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { empresaService, formatData } from '../../services/EmpresaService'
 import { useEffect, useState } from 'react'
 import { Button } from '@nextui-org/react'
@@ -14,8 +14,8 @@ export const Route = createLazyFileRoute('/get-score/')({
 })
 
 type ScoreForm = {
-  nombre: string;
-  codigo_sector: number;
+  name: string;
+  sector_code: number;
   co2_revenues: number;
   water_revenues: number;
   energy_revenues: number;
@@ -23,17 +23,39 @@ type ScoreForm = {
   market_gap: number;
   salary_gap: number;
   net_employment_creation: number;
-  help_policy: boolean;
+  health_policy: boolean;
   supply_chain_policy: boolean;
   diversity_policy: boolean;
   board_independency_policy: boolean;
   board_diversity_policy: boolean;
   board_experience_policy: boolean;
   green_capex: boolean;
+  date: string;
 }
 
 function Score() {
-  const formMethods = useForm<ScoreForm>()
+  const formMethods = useForm<ScoreForm>({
+    defaultValues: {
+      name: '',
+      sector_code: 0,
+      co2_revenues: 0,
+      water_revenues: 0,
+      energy_revenues: 0,
+      renewable_energy: 0,
+      market_gap: 0,
+      salary_gap: 0,
+      net_employment_creation: 0,
+      health_policy: false,
+      supply_chain_policy: false,
+      diversity_policy: false,
+      board_independency_policy: false,
+      board_diversity_policy: false,
+      board_experience_policy: false,
+      green_capex: false,
+      date: new Date().toISOString()
+    }
+  })
+  const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
   const [optionEmpresas, setOptionEmpresas] = useState<{ label: string, value: string }[]>([])
@@ -42,6 +64,16 @@ function Score() {
     queryFn: () => empresaService.getEmpresas(),
     refetchOnWindowFocus: false,
   })
+
+  const empresaMutation = useMutation({
+    mutationFn: (data: ScoreForm) => {
+      return empresaService.postEmpresa(data)
+    },
+    onSuccess: (data) => {
+      console.log(data)
+    }
+  })
+
   const animation = {
     hidden: { x: 0, opacity: 0 },
     visible: { x: 0, opacity: 1 },
@@ -50,6 +82,7 @@ function Score() {
 
   const onSubmit = (data: ScoreForm) => {
     console.log(data)
+    empresaMutation.mutate({ ...data, co2_revenues: Number(data.co2_revenues), water_revenues: Number(data.water_revenues), energy_revenues: Number(data.energy_revenues), renewable_energy: Number(data.renewable_energy), market_gap: Number(data.market_gap), salary_gap: Number(data.salary_gap), net_employment_creation: Number(data.net_employment_creation), sector_code: Number(data.sector_code), date: new Date().toISOString() })
   }
 
   useEffect(() => {
@@ -57,11 +90,6 @@ function Score() {
       setOptionEmpresas(formatData(data))
     }
   }, [data])
-
-  useEffect(() => {
-    setShowForm(formMethods.watch('nombre') ? true : false)
-
-  }, [formMethods.watch('nombre')])
 
   return <div className='flex flex-col gap-4 p-4 items-center text-center min-h-[65dvh]'>
     <h1 className='text-3xl font-bold'>Consulta</h1>
@@ -94,7 +122,8 @@ function Score() {
                 initial="hidden"
                 animate="visible"
                 exit="exit" className='grid grid-cols-2 gap-6 w-full'>
-                <CustomInput label='Codigo del sector' name='codigo' type='number' />
+                <CustomInput label='Nombre de la empresa' name='name' type='text' />
+                <CustomInput label='Codigo del sector' name='sector_code' type='number' />
                 <CustomInput label='Ingresos por CO2' name='co2_revenues' type='number' />
                 <CustomInput label='Ingresos por agua' name='water_revenues' type='number' />
                 <CustomInput label='Ingresos por energía' name='energy_revenues' type='number' />
@@ -102,7 +131,7 @@ function Score() {
                 <CustomInput label='Brecha de mercado' name='market_gap' type='number' />
                 <CustomInput label='Brecha salarial' name='salary_gap' type='number' />
                 <CustomInput label='Creación neta de empleo' name='net_employment_creation' type='number' />
-                <SwitchInput label='Política de salud y seguridad' name='help_policy' />
+                <SwitchInput label='Política de salud y seguridad' name='health_policy' />
                 <SwitchInput label='Política de cadena de suministro' name='supply_chain_policy' />
                 <SwitchInput label='Política de diversidad' name='diversity_policy' />
                 <SwitchInput label='Política de independencia de la junta' name='board_independency_policy' />
@@ -121,7 +150,12 @@ function Score() {
               exit="exit" className='w-full flex flex-col gap-4'>
               <label htmlFor='nombre'>Selecciona una empresa para ver el Dashboard</label>
               <AutoCompleteInput name='nombre' label='Nombre de la empresa' options={optionEmpresas} />
-              <Button type='submit' className='backdrop-blur-md animated-background bg-gradient-to-r from-[#665DCD] via-[#5FA4E6] to-[#D2AB67] relative px-8 py-6 rounded-lg hover:scale-[1.05] duration-75 mb-4'>Obtener Datos del Dashboard</Button>
+              <Button onPress={() => {
+                if (formMethods.getValues('name')) navigate({
+                  to: '/score/$scoreId',
+                  params: { scoreId: formMethods.getValues('name') }
+                })
+              }} type='submit' className='backdrop-blur-md animated-background bg-gradient-to-r from-[#665DCD] via-[#5FA4E6] to-[#D2AB67] relative px-8 py-6 rounded-lg hover:scale-[1.05] duration-75 mb-4'>Obtener Datos del Dashboard</Button>
             </motion.section>
           }
         </AnimatePresence>

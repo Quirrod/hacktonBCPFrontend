@@ -19,9 +19,6 @@
     "skipLibCheck": true,                      // Skip type checking of declaration files
     "suppressImplicitAnyIndexErrors": true
   },
-  "include": [
-    "src/**/*" // Adjust based on your project structure
-  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts" // Exclude test files if necessary

@@ -7,9 +7,22 @@
     {
       "path": "./tsconfig.node.json"
     },
-    "compilerOptions": {
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
-  }
+  "compilerOptions": {
+    "target": "ES6",                          // Adjust based on your needs
+    "module": "commonjs",                     // Adjust based on your needs
+    "strict": true,                           // Enable all strict type-checking options
+    "noUnusedLocals": false,                  // Disable error for unused local variables
+    "noUnusedParameters": false,              // Disable error for unused function parameters
+    "esModuleInterop": true,                  // Enables emit interoperability between CommonJS and ES Modules
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    "skipLibCheck": true                      // Skip type checking of declaration files
+  },
+  "include": [
+    "src/**/*" // Adjust based on your project structure
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts" // Exclude test files if necessary
+  ]
   ]
 }
